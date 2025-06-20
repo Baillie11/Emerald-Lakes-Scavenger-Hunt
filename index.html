@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Puzzle Path: Emerald Lakes Quest</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f4f8fb;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 1em;
+    }
+
+    .intro-banner {
+      background: #fdeaa8;
+      color: #333;
+      text-align: center;
+      padding: 1.5em;
+      border-radius: 10px;
+      margin-bottom: 1em;
+    }
+    
+    .intro-banner img {
+      display: block;
+      margin: auto;
+      max-width: 120px;
+      margin-bottom: 0.5em;
+    }
+    
+    .intro-banner h1 {
+      font-size: 1.8em;
+      margin: 0.5em 0;
+      color: #333;
+    }
+    
+    .intro-banner p {
+      font-size: 1em;
+      margin: 0;
+      color: #333;
+    }
+    
+    .clue {
+      background: white;
+      margin: 1em 0;
+      padding: 1em;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(253, 234, 168, 0.8);
+      text-align: center;
+    }
+    
+    .task, .hint {
+      display: none;
+      margin-top: 0.5em;
+      padding: 0.5em;
+      background: #fff3cd;
+      text-align: center;
+    }
+    
+    .buttons {
+      margin-top: 0.5em;
+    }
+    
+    button {
+      background: #4ca6a8;
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 0.5em;
+      padding: 0.4em 0.8em;
+      font-size: 0.9em;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background: #3a8a8c;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0.5em;
+        max-width: 100%;
+      }
+      
+      .intro-banner h1 {
+        font-size: 1.5em;
+      }
+      
+      .intro-banner img {
+        max-width: 100px;
+      }
+      
+      .clue {
+        margin: 0.5em 0;
+        padding: 0.8em;
+      }
+      
+      button {
+        display: block;
+        width: 100%;
+        margin: 0.3em 0;
+        padding: 0.6em;
+        font-size: 1em;
+      }
+      
+      .buttons {
+        margin-top: 0.8em;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .intro-banner h1 {
+        font-size: 1.3em;
+      }
+      
+      .intro-banner p {
+        font-size: 0.9em;
+      }
+      
+      .clue {
+        padding: 0.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="intro-banner">
+        <img src="puzzlepath-logo-web.png" alt="Puzzle Path Logo" />
+        <h1>Emerald Lakes Explorer's Quest</h1>
+        <p>Start at the All Abilities Playground and follow the path clockwise around the lake.</p>
+    </div>
+</div>
+  
+<div class="container" id="clueContainer"></div>
+
+  <script>
+    const clues = [
+      {
+        title: "Clue 1: Counting Light",
+        clue: "This bridge guides both day and night,\nWith metal posts that give off light.\nWalk from end to end and count each pole —\nNot bollards, just the tall light goal.",
+        task: "Count the tall light poles along the bridge.",
+        hint: "Only count the tall upright light poles — not small ones or ground fixtures.",
+        answer: "8"
+      },
+      {
+        title: "Clue 2: Steel Strength",
+        clue: "Along the lake, where runners train,\nStands gear to stretch your back or strain.\nOne has bars in a laddered row —\nWhat colour are the handles where your hands would go?",
+        task: "Visit the exercise station and check the ladder-like bar handles.",
+        hint: "Look near the water's edge, past the bridge. It's shaped like a ladder.",
+        answer: "Silver"
+      },
+      {
+        title: "Clue 3: Carved in Stone",
+        clue: "Just off the track, a plaque is found,\nIn stone it rests near the picnic ground.\nWhat year is carved to mark the day\nThis place was opened in a formal way?",
+        task: "Find the stone plaque near the BBQ area. What year is engraved?",
+        hint: "Look low to the ground, near picnic tables or paths.",
+        answer: "2003"
+      },
+      {
+        title: "Clue 4: The Sculpture Watcher",
+        clue: "A figure waits, not made of flesh,\nBut metal curves or angles fresh.\nFind the sculpture near the bend —\nWhat is the first word of the plaque at its end?",
+        task: "Read the sculpture's plaque. What's the first word?",
+        hint: "The sculpture is near the first major bend in the lake trail.",
+        answer: "Commissioned"
+      },
+      {
+        title: "Clue 5: Colour by Nature",
+        clue: "Look to the gardens with planned design,\nThree flower beds in a tidy line.\nOne red, one white, one violet too —\nWhich flower is planted with the colour blue?",
+        task: "Identify the blue-flowering plant. What is it?",
+        hint: "Check landscaped flower beds near the lake's western side.",
+        answer: "Agapanthus"
+      },
+      {
+        title: "Clue 6: Benched With a View",
+        clue: "Along the lake, one bench stands proud,\nFacing the water, away from the crowd.\nIt's not curved or in a set —\nJust one alone — have you found it yet?",
+        task: "Find the lone bench with a lake view. Take a selfie there.",
+        hint: "Look along the southern lake path for a solo bench facing open water.",
+        answer: "Photo confirmation"
+      },
+      {
+        title: "Clue 7: Final Fill-Up",
+        clue: "Before you finish, hydrate true,\nThere's one blue fountain waiting for you.\nWhat small raised icon is on the tap —\nNot letters — just a watery map?",
+        task: "Describe the symbol (not text) on the fountain.",
+        hint: "Look near shaded areas or fitness spots for the water station.",
+        answer: "Water droplet"
+      },
+      {
+        title: "Clue 8: Hero's Seat",
+        clue: "With all clues solved, you've reached the end,\nYour journey's done, adventurer friend.\nOne wide bench gives a champion's view —\nTake your photo, the quest is through!",
+        task: "Find the largest bench near the starting playground with lake view.",
+        hint: "You saw this bench at the start near the All Abilities Playground.",
+        answer: "Final victory photo"
+      }
+    ];
+
+    const container = document.getElementById("clueContainer");
+
+    clues.forEach((c, i) => {
+      const el = document.createElement("div");
+      el.className = "clue";
+      el.innerHTML = `
+        <h3>${c.title}</h3>
+        <p>${c.clue.replace(/\n/g, '<br>')}</p>
+        <div class="buttons">
+          <button onclick="this.nextElementSibling.style.display='block'; this.style.display='none';">Show Task</button>
+          <div class="task">${c.task}</div>
+        </div>
+        <div class="buttons">
+          <button onclick="this.nextElementSibling.style.display='block'; this.style.display='none';">Need a Hint?</button>
+          <div class="hint">${c.hint}</div>
+        </div>
+        <div class="buttons">
+          <label><input type="checkbox" onchange="revealNext(${i})"> Done – show next clue</label>
+        </div>
+      `;
+      el.id = `clue-${i}`;
+      if (i > 0) el.classList.add("hidden");
+      container.appendChild(el);
+    });
+
+    function revealNext(index) {
+      const next = document.getElementById(`clue-${index + 1}`);
+      if (next) next.classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
